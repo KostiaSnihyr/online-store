@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Online Store</title>
+    <link rel="stylesheet" href="background-layout.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="filter">
+                <div class="filter__header">
+                    <h2>Filter:</h2>
+                </div>
+
+                <div class="filter__sort">
+                    <label for="price">Price:</label>
+                    <select name="price" id="price">
+                        <option value="low-to-high">Low to High</option>
+                        <option value="high-to-low">High to Low</option>
+                    </select>
+                    <label for="number-of-items">Show:</label>
+                    <select name="number-of-items" id="number-of-items">
+                        <option value="10-items">10 items</option>
+                        <option value="20-items">20 items</option>
+                        <option value="30-items">30 items</option>
+                    </select>
+                    <label for="number-of-rank">Show by rank:</label>
+                    <input type="checkbox" id="number-of-rank">
+                </div>
+
+                <div class="filter__menu">
+                    <div class="dropdown-category-list">
+                        <span class="dropdown-category-list__header">Select Category:</span>
+                        <ul class="dropdown-category-list__items js-filter-category">
+                            <li class="dropdown-category-list__list" data-filter="sneakers">
+                                <input type="checkbox" id="filterSneakers">
+                                <label for="filterSneakers">Sneakers</label>
+                            </li>
+                            <li class="dropdown-category-list__list" data-filter="t-shirts">
+                                <input type="checkbox" id="filterTshirts">
+                                <label for="filterTshirts">T-shirts</label>
+                            </li>
+                            <li class="dropdown-category-list__list" data-filter="caps">
+                                <input type="checkbox" id="filterCaps">
+                                <label for="filterCaps">Caps</label>
+                            </li>
+                            <li class="dropdown-category-list__list" data-filter="bags">
+                                <input type="checkbox" id="filterBags">
+                                <label for="filterBags">Bags</label>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="js-container-filters"></div>
+
+                    <div class="price">
+                        <h3>Price range:</h3>
+                        <label for="price-from">Min Price $</label>
+                        <input type="text" id="price-from">
+                        <label for="price-to">Max Price $</label>
+                        <input type="text" id="price-to">
+                    </div>
+
+                    <div class="colors">
+                        <span class="colors__header">Select Color:</span>
+                        <ul class="colors__items">
+                            <li class="colors__list">
+                                <label><input type="checkbox" value="red">Red<span class=colors__sircle></span></label>
+                            </li>
+                            <li class="colors__list">
+                                <label><input type="checkbox" value="black">Black<span class=colors__sircle></span></label>
+                            </li>
+                            <li class="colors__list">
+                                <label><input type="checkbox" value="green">Green<span class=colors__sircle></span></label>
+                            </li>
+                            <li class="colors__list">
+                                <label><input type="checkbox" value="blue">Blue<span class=colors__sircle></span></label>
+                            </li>
+                            <li class="colors__list">
+                                <label><input type="checkbox" value="white">White<span class=colors__sircle></span></label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="filter__items js-filter__items">
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+
+    </footer>
+
+    <script src="temp.prods.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
