@@ -1,3 +1,5 @@
+
+
 let searchFilter = {};
 const dataFilters = {
 		'sneakers': {
@@ -50,62 +52,34 @@ const dataFilters = {
 	wrapperProducts = document.querySelector('.js-filter__items');
 
 
-
 filterCategory.addEventListener('click', function(e) {
-	const clickEl = e.target; // кликнутый элемент
-	// если клик на label или input
-	if(clickEl.tagName === 'LABEL' || clickEl.tagName === 'INPUT') {
-
-		// получили у li, в котором лежат label и input название фильтра из
-		// аттрибута data-filter
+	const clickEl = e.target;
+	if(clickEl.tagName === 'INPUT') {
 		const curFilter = clickEl.parentNode.getAttribute('data-filter');
-
-		// из объекта, в котором расположены под фильтры для фильтров
-		// получаем информацию по текущему фильтру в виде объекта
-		// информация хранит выбран ли текущий фильтр и массив под фильтров
 
 		let prop;
 		for(prop in dataFilters[curFilter].arr) {
-			const chosenFilter = dataFilters[curFilter];
-			// если фильтр кликнут - добавляем под фильтры
-			// если нет - скрываем фильтры
-			
 			if(clickEl.parentNode.querySelector('input').checked) {
 				searchFilter[curFilter] = {};
-				// если фильтр создан - проявляем его
-				// если фильтр не создан - создаем, при создании - кешируем фильтр в объекте
-				if(chosenFilter.filter[prop]) {
-					chosenFilter.filter[prop].style.display = 'block';
-
-					// убираем CHECKED У INPUT-а
-					const arrCheckbox = chosenFilter.filter[prop].querySelectorAll('input');
-					let i = -1;
-					while(++i < arrCheckbox.length) arrCheckbox[i].checked = false;
-				} else {
-					// console.log(chosenFilter.arr[prop]);
-					chosenFilter.filter[prop] = createFilter(chosenFilter.arr[prop], curFilter, prop);
-					containerAdditionalFilters.appendChild( chosenFilter.filter[prop] );
-				}
+				dataFilters[curFilter].filter[prop] = createFilter(dataFilters[curFilter].arr[prop], curFilter, prop);
+				containerAdditionalFilters.appendChild(dataFilters[curFilter].filter[prop]);
 			} else {
-				if(chosenFilter.filter[prop]) chosenFilter.filter[prop].style.display = 'none';
+				dataFilters[curFilter].filter[prop].style.display = 'none';
 				delete searchFilter[curFilter];
 			}
-			filterProd(prods, searchFilter, wrapperProducts);
 		}
-
-		// console.log(searchFilter);
+		filterProd(prods, searchFilter, wrapperProducts);
 	}
-}, false);
+});
 
-// функция создает разметку для фильтра
 function createFilter(arr, filterName, mode) {
-	// console.log(filterName);
 	filterNameFL = filterName[0].toUpperCase() + filterName.substr(1);
 
 	const container = document.createElement('div'),
 		title = document.createElement('span'),
 		ul = document.createElement('ul');
 	let li, label, checkbox;
+
 	container.className = 'dropdown-brand-list';
 	title.className = 'dropdown-brand-list__header';
 	ul.className = 'dropdown-brand-list__items';
@@ -116,13 +90,12 @@ function createFilter(arr, filterName, mode) {
 		li = document.createElement('li');
 		label = document.createElement('label');
 		checkbox = document.createElement('input');
-
 		li.setAttribute('data-filter', filter.toLowerCase());
 		li.className = 'dropdown-brand-list__list';
 		label.innerText = filter;
+		label.setAttribute('for', `filter${filter}`);
 		checkbox.type = 'checkbox';
 		checkbox.id = `filter${filter}`;
-		label.setAttribute('for', `filter${filter}`);
 
 		li.appendChild(checkbox);
 		li.appendChild(label);
@@ -131,10 +104,8 @@ function createFilter(arr, filterName, mode) {
 
 	ul.addEventListener('click', function(e) {
 		const clickEl = e.target;
-	
-		if(clickEl.tagName === 'LABEL' || clickEl.tagName === 'INPUT') {
-			const curFilter = clickEl.parentNode.getAttribute('data-filter');
-
+		if(clickEl.tagName === 'INPUT') {
+			curFilter = clickEl.parentNode.getAttribute('data-filter');
 			if(clickEl.parentNode.querySelector('input').checked) {
 				searchFilter[filterName][curFilter] = 1;
 			} else {
@@ -142,9 +113,7 @@ function createFilter(arr, filterName, mode) {
 			}
 			filterProd(prods, searchFilter, wrapperProducts);
 		}
-		
-		// console.log(searchFilter);
-	});
+	})
 
 	container.appendChild(title);
 	container.appendChild(ul);
@@ -152,90 +121,37 @@ function createFilter(arr, filterName, mode) {
 	return container;
 }
 
-
-
-
-
-/*
-
-let a = 1;
-let b = ++a;
-
-// a = 2
-// b = 2
-
-{
-	let a = 1;
-	let b = a++;
-
-	// a = 2
-	// b = 1
-
-}
-
-.then() // no error
-.catch() // no
-.then() // error 1
-.then()
-.catch() // error 1, return 22
-.then() // на вход получает 22
-*/
-
-
-
-
-/*
-	data.category
-	data.brand
-	data.color
-// shoes
-	// bags
-
-	sneakers
-	t-shirts
-		data.size
-
-	// caps
-	// 	Shape
-	// bags
-	// 	Occasion
-	// 	Material
-*/
-
-
-
 function filterProd(prods, filters, containerProducts) {
-	// отбриаем и сортируем массив товаров
-	let resProds = [], tempArr;
+	let resProds = [],
+		tempArr;
+	
 	for(let cat in filters) {
-		// сортировка по категории
-		tempArr = prods.filter(prod => prod.category === cat);
-		resProds.push(...tempArr); // достать элементы из массива
-
-		console.log(cat, filters[cat]);
+		tempArr = prods.filter(prod => {
+			return cat === prod.category;
+		});
+		resProds.push(...tempArr);
 	}
-	console.log(resProds);
 
-	// выводим товары в виде карточек на экран
+	// show cards on the screen
 	containerProducts.innerHTML = '';
-	for (let i = 0; i < resProds.length; i++) {
+	for(let i = 0; i < resProds.length; i++) {
 		containerProducts.appendChild(createProd(resProds[i]));
 	}
 	return resProds;
 }
+
 function createProd(data) {
 	const card = document.createElement('div'),
-		  img = document.createElement('img'),
-		  title = document.createElement('div'),
-		  price = document.createElement('div');
+		img = document.createElement('img'),
+		title = document.createElement('div'),
+		price = document.createElement('div');
+
 	card.className = 'card';
 	img.className = 'card__img';
 	title.className = 'card__title';
 	price.className = 'card__price';
 
 	card.setAttribute('data-id', data.id);
-
-
 	img.setAttribute('src', data.image);
 	img.setAttribute('alt', 'product image');
 	title.innerText = data.title;
