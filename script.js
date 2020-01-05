@@ -1,6 +1,11 @@
 
 
 let searchFilter = {};
+// sneakers: {41: "size", 42: "size", nike: "brand", puma: "brand"}
+// t-shirts: {tommy hilfiger: "brand", m: "size"}
+// bags: {}
+// caps: {}
+
 const dataFilters = {
 		'sneakers': {
 			filter: {
@@ -64,7 +69,7 @@ filterCategory.addEventListener('click', function(e) {
 				dataFilters[curFilter].filter[prop] = createFilter(dataFilters[curFilter].arr[prop], curFilter, prop);
 				containerAdditionalFilters.appendChild(dataFilters[curFilter].filter[prop]);
 			} else {
-				dataFilters[curFilter].filter[prop].style.display = 'none';
+				dataFilters[curFilter].filter[prop].innerHTML = '';
 				delete searchFilter[curFilter];
 			}
 		}
@@ -80,9 +85,6 @@ function createFilter(arr, filterName, mode) {
 		ul = document.createElement('ul');
 	let li, label, checkbox;
 
-	container.className = 'dropdown-brand-list';
-	title.className = 'dropdown-brand-list__header';
-	ul.className = 'dropdown-brand-list__items';
 	title.innerText = `Select ${mode} for ${filterNameFL}:`;
 
 	let filter;
@@ -90,12 +92,13 @@ function createFilter(arr, filterName, mode) {
 		li = document.createElement('li');
 		label = document.createElement('label');
 		checkbox = document.createElement('input');
+
 		li.setAttribute('data-filter', filter.toLowerCase());
-		li.className = 'dropdown-brand-list__list';
+		li.setAttribute('data-mode', mode.toLowerCase());
 		label.innerText = filter;
-		label.setAttribute('for', `filter${filter}`);
+		label.setAttribute('for', `filter${filter}${filterName}`);
 		checkbox.type = 'checkbox';
-		checkbox.id = `filter${filter}`;
+		checkbox.id = `filter${filter}${filterName}`;
 
 		li.appendChild(checkbox);
 		li.appendChild(label);
@@ -107,7 +110,7 @@ function createFilter(arr, filterName, mode) {
 		if(clickEl.tagName === 'INPUT') {
 			curFilter = clickEl.parentNode.getAttribute('data-filter');
 			if(clickEl.parentNode.querySelector('input').checked) {
-				searchFilter[filterName][curFilter] = 1;
+				searchFilter[filterName][curFilter] = clickEl.parentNode.getAttribute('data-mode');
 			} else {
 				delete searchFilter[filterName][curFilter];
 			}
@@ -121,20 +124,54 @@ function createFilter(arr, filterName, mode) {
 	return container;
 }
 
-function filterProd(prods, filters, containerProducts) {
+function filterProd(prods, searchFil, containerProducts) {
 	let resProds = [],
-		tempArr;
+		tempArr,
+		groupFilters;
 	
-	for(let cat in filters) {
-		tempArr = prods.filter(prod => {
-			return cat === prod.category;
-		});
-		resProds.push(...tempArr);
-	}
+		for(let cat in searchFil) {
+			// 1) filter prod by category
+			tempArr = prods.filter(prod => prod.category === cat);
 
-	// show cards on the screen
+			// cteate object to display: size: ["42", "43"] brand: ["nike", "puma"]
+			groupFilters = (function() {
+				let group = {};
+				for(const propProd in searchFil[cat]) { // propProd => 41/42/43/nike/puma/adidas
+					const filterName = searchFil[cat][propProd]; // size/brand
+					if(filterName in group) group[filterName].push(propProd);
+					else group[filterName] = [propProd];
+				}
+				return group;
+			})();
+			
+			// 2) loop through filtered prods by category to classify it by size/brand/material/occasion
+			for(const filterName in groupFilters) {
+				const arrFilterValue = groupFilters[filterName]; //["42", "43"]/["nike", "puma"]
+				
+				tempArr = tempArr.filter(prod => {
+					let isEmpty = true,
+						isAppropriate = false;
+	
+					for(const value of arrFilterValue) {
+						isEmpty = false;
+						if(prod[ filterName ] === value) {
+							isAppropriate = true;
+							break;
+						}
+					}
+					return isEmpty || isAppropriate;
+				});
+				console.log(tempArr);
+			}
+			
+
+			resProds.push(...tempArr);
+		}
+
+	
+	// show items on the screen
 	containerProducts.innerHTML = '';
-	for(let i = 0; i < resProds.length; i++) {
+	for (let i = 0; i < resProds.length; i++) {
 		containerProducts.appendChild(createProd(resProds[i]));
 	}
 	return resProds;

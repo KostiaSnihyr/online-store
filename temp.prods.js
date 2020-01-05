@@ -11,9 +11,9 @@ var prods = [
         "title": "Prod 1"
     },
     {
-        "id": "1",
+        "id": "2",
         "category": "sneakers",
-        "brand" : "nike",
+        "brand" : "reebok",
         "size": "42",
         "color" : "black",
         "price" : "350",
@@ -22,7 +22,7 @@ var prods = [
         "title": "Prod 1"
     },
     {
-        "id": "1",
+        "id": "3",
         "category": "sneakers",
         "brand" : "nike",
         "size": "42",
@@ -33,7 +33,7 @@ var prods = [
         "title": "Prod 1"
     },
     {
-        "id": "1",
+        "id": "4",
         "category": "sneakers",
         "brand" : "adidas",
         "size": "44",
@@ -44,7 +44,7 @@ var prods = [
         "title": "Prod 1"
     },
     {
-        "id": "1",
+        "id": "5",
         "category": "sneakers",
         "brand" : "adidas",
         "size": "41",
@@ -55,9 +55,9 @@ var prods = [
         "title": "Prod 1"
     },
     {
-        "id": "1",
+        "id": "6",
         "category": "t-shirts",
-        "brand" : "lacoste ",
+        "brand" : "lacoste",
         "size": "l",
         "color" : "blue",
         "price" : "50",
@@ -66,9 +66,9 @@ var prods = [
         "title": "Prod 1"
     },
     {
-        "id": "1",
+        "id": "7",
         "category": "t-shirts",
-        "brand" : "nike ",
+        "brand" : "nike",
         "size": "s",
         "color" : "white",
         "price" : "14",
@@ -77,9 +77,9 @@ var prods = [
         "title": "Prod 1"
     },
     {
-        "id": "1",
+        "id": "8",
         "category": "t-shirts",
-        "brand" : "nike ",
+        "brand" : "nike",
         "size": "xl",
         "color" : "green",
         "price" : "15",
@@ -88,7 +88,7 @@ var prods = [
         "title": "Prod 1"
     },
     {
-        "id": "1",
+        "id": "9",
         "category": "caps",
         "brand" : "47 Brand",
         "color" : "black",
@@ -98,7 +98,7 @@ var prods = [
         "title": "Prod 1"
     },
     {
-        "id": "1",
+        "id": "10",
         "category": "caps",
         "brand" : "adidas",
         "color" : "red",
@@ -108,7 +108,7 @@ var prods = [
         "title": "Prod 1"
     },
     {
-        "id": "1",
+        "id": "11",
         "category": "bags",
         "brand" : "o my bag",
         "color" : "green",
